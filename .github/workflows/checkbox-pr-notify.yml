@@ -1,0 +1,28 @@
+
+name: Checkbox Notify
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  checkboxes-checked:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check if checkboxes are ticked
+      id: checkboxes
+      run: echo ::set-output name=checked::$(grep -c "\- \[x\]" $GITHUB_EVENT_PATH)
+
+    - run: echo $GITHUB_EVENT_PATH
+    
+    - name: Notify when all checkboxes are ticked
+      if: ${{ steps.checkboxes.outputs.checked == '0' }}
+        echo "All checkboxes are ticked. Sending notification..."
+      uses: appleboy/telegram-action@v0.1.1
+      with:
+        to: ${{ secrets.TELEGRAM_DEST_CHAT }}
+        token: ${{ secrets.TELEGRAM_ACCESS_TOKEN }}
+        disable_notification: true
+        message: |
+          ${{ github.actor }} raised a PR.
+          Repository: ${{ github.repository }}
