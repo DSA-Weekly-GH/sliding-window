@@ -1,8 +1,9 @@
 name: Checkbox Notify
 
 on:
-  pull_request:
-    types: [opened]
+  push:
+    branches:
+      - main
 
 jobs:
   checkboxes-checked:
@@ -13,13 +14,12 @@ jobs:
         run: echo ::set-output name=checked::$(grep -c "\- \[x\]" $GITHUB_EVENT_PATH)
 
       - name: Notify when all checkboxes are ticked
-        if: ${{ steps.checkboxes.outputs.checked == '0' }}
+        if: ${{ steps.checkboxes.outputs.checked == '0' && github.event_size == 1 }}
         uses: appleboy/telegram-action@v0.1.1
         with:
           to: ${{ secrets.TELEGRAM_DEST_CHAT }}
           token: ${{ secrets.TELEGRAM_ACCESS_TOKEN }}
           disable_notification: true
           message: |
-            ${{ github.actor }} raised a PR.
-            Repository: ${{ github.repository }}
+            ${{ github.actor }} pushed one commit to branch '${{ github.ref }}' in repository '${{ github.repository }}'.
             All checkboxes are ticked.
