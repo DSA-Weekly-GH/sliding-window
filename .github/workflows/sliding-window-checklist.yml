@@ -11,8 +11,8 @@ jobs:
     steps:
       - name: Checklist
         run: |
-          echo "- [ ] Have you follwoed the correct file naming convention?" > checklist.txt
-          echo "- [ ] Have you attached an image of your leetcode?" >> checklist.txt
+         [ ] Have you follwoed the correct file naming convention?
+         [ ] Have you attached an image of your leetcode?
   
         id: checklist
 
@@ -21,7 +21,3 @@ jobs:
         with:
           name: image
           path: image.png/jpg
-
-      - name: Transfer Files
-        run: |
-          scp -r ${{ github.workspace }}/* user@remote-server:/path/to/destination/
