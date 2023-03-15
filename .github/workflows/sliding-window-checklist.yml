@@ -1,23 +1,10 @@
-name: Create Checklist and Upload Image
-
-on:
-  push:
-    branches:
-      - main
-
-jobs:
-  checklist-and-upload:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checklist
-        run: |
-         [ ] Have you follwoed the correct file naming convention?
-         [ ] Have you attached an image of your leetcode?
+###Checklist
+- [ ] Have you followed the correct file naming convention.
+- [ ] Have you attached an image of your leetcode.
+- [ ] My code resolved all the task
+ 
+         
+     
+     
   
-        id: checklist
-
-      - name: Upload Image
-        uses: actions/upload-artifact@v2
-        with:
-          name: image
-          path: image.png/jpg
+ 
